@@ -1,16 +1,23 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
-import Routes from './routes';
+import { createBrowserHistory } from 'history';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './theme';
+import Routes from './Routes';
 import { normalClient } from './services/apollo';
+
+const browserHistory = createBrowserHistory();
 
 function App() {
   return (
-    <ApolloProvider client={normalClient}>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-    </ApolloProvider>
+    <ThemeProvider theme={theme}>
+      <ApolloProvider client={normalClient}>
+        <Router history={browserHistory}>
+          <Routes />
+        </Router>
+      </ApolloProvider>
+    </ThemeProvider>
   );
 }
 

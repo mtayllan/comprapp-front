@@ -26,6 +26,7 @@
       {
         "allowTaggedTemplates": true
       }
-    ]
+    ],
+    "react/jsx-props-no-spreading": "warn"
   }
 }
