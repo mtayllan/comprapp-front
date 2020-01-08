@@ -6,6 +6,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme';
 import Routes from './Routes';
 import { normalClient } from './services/apollo';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const browserHistory = createBrowserHistory();
 

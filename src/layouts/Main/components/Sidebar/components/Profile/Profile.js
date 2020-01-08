@@ -5,23 +5,23 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    minHeight: 'fit-content'
+    minHeight: 'fit-content',
   },
   avatar: {
     width: 60,
-    height: 60
+    height: 60,
   },
   name: {
-    marginTop: theme.spacing(1)
-  }
+    marginTop: theme.spacing(1),
+  },
 }));
 
-const Profile = props => {
+const Profile = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -29,7 +29,7 @@ const Profile = props => {
   const user = {
     name: 'Shen Zhi',
     avatar: '/images/avatars/avatar_11.png',
-    bio: 'Brain Director'
+    bio: 'Brain Director',
   };
 
   return (
@@ -56,7 +56,11 @@ const Profile = props => {
 };
 
 Profile.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+};
+
+Profile.defaultProps = {
+  className: '',
 };
 
 export default Profile;

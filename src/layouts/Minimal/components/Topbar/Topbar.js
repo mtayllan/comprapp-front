@@ -7,11 +7,11 @@ import { AppBar, Toolbar } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
-    boxShadow: 'none'
-  }
+    boxShadow: 'none',
+  },
 }));
 
-const Topbar = props => {
+const Topbar = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -36,7 +36,11 @@ const Topbar = props => {
 };
 
 Topbar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+};
+
+Topbar.defaultProps = {
+  className: '',
 };
 
 export default Topbar;
