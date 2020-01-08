@@ -27,6 +27,7 @@
         "allowTaggedTemplates": true
       }
     ],
-    "react/jsx-props-no-spreading": "warn"
+    "react/jsx-props-no-spreading": "warn",
+    "react/forbid-prop-types": "off"
   }
 }
