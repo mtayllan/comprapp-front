@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import validate from 'validate.js';
 import {
   Grid,
@@ -8,26 +7,37 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import { loader } from 'graphql.macro';
+import { useMutation } from '@apollo/client';
+import { toast } from 'react-toastify';
 import { useStyles } from './styles-jss';
+import { authClient } from '../../services/apollo';
+import { isAuthenticated } from '../../utils/storage';
+
+
+const AdminLoginMutation = loader('./operations.gql');
 
 const schema = {
   email: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: 'é obrigatório' },
     email: true,
     length: {
       maximum: 64,
     },
   },
   password: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: 'é obrigatório' },
     length: {
       maximum: 128,
     },
   },
 };
 
-const SignIn = (props) => {
-  const { history } = props;
+const SignIn = () => {
+  const [adminLogin, { data }] = useMutation(AdminLoginMutation, {
+    client: authClient,
+    onError: ({ graphQLErrors }) => graphQLErrors.forEach((error) => toast.error(error.message)),
+  });
 
   const classes = useStyles();
 
@@ -69,10 +79,15 @@ const SignIn = (props) => {
 
   const handleSignIn = (event) => {
     event.preventDefault();
-    history.push('/');
+    const { values: { email, password } } = formState;
+    adminLogin({ variables: { email, password } });
   };
 
   const hasError = (field) => (!!(formState.touched[field] && formState.errors[field]));
+
+  if (data || isAuthenticated()) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.root}>
@@ -147,8 +162,4 @@ const SignIn = (props) => {
   );
 };
 
-SignIn.propTypes = {
-  history: PropTypes.object.isRequired,
-};
-
-export default withRouter(SignIn);
+export default SignIn;

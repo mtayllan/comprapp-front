@@ -8,7 +8,9 @@ import { onError } from 'apollo-link-error';
 import { ApolloLink, Observable } from 'apollo-link';
 
 // others
-import { getAuthHeader } from '../utils/storage';
+import {
+  getAuthHeader, setAuthHeader, authHasChanged,
+} from '../utils/storage';
 
 const createCache = () => {
   const cache = new InMemoryCache();
@@ -48,7 +50,8 @@ const logError = (error) => console.error(error);
 // create error link
 const createErrorLink = () => onError(({ graphQLErrors, networkError, operation }) => {
   if (graphQLErrors) {
-    logError('GraphQL - Error', {
+    logError({
+      type: 'GraphQL - Error',
       errors: graphQLErrors,
       operationName: operation.operationName,
       variables: operation.variables,
@@ -61,14 +64,36 @@ const createErrorLink = () => onError(({ graphQLErrors, networkError, operation 
 
 const createHttpLink = () => new HttpLink({
   uri: 'http://localhost:4000/graphql',
-  credentials: 'include',
 });
+
+const afterwareLink = () => new ApolloLink(
+  (operation, forward) => forward(operation).map((response) => {
+    const context = operation.getContext();
+    const { response: { headers } } = context;
+
+    // console works only this way
+    // console.log(context.response.headers.get('access-token'));
+
+    if (headers) {
+      const accessToken = headers.get('access-token');
+
+      if (authHasChanged(accessToken)) {
+        const client = headers.get('client');
+        const uid = headers.get('uid');
+        setAuthHeader({ accessToken, client, uid });
+      }
+    }
+    return response;
+  }),
+);
+
 
 export const normalClient = () => new ApolloClient({
   link: ApolloLink.from([
     createErrorLink(),
     createLinkWithToken(),
     createHttpLink(),
+    afterwareLink(),
   ]),
   cache: createCache(),
 });
@@ -79,6 +104,10 @@ const createAuthHttpLink = () => new HttpLink({
 });
 
 export const authClient = new ApolloClient({
-  link: createAuthHttpLink(),
+  link: ApolloLink.from([
+    createErrorLink(),
+    afterwareLink(),
+    createAuthHttpLink(),
+  ]),
   cache: createCache(),
 });

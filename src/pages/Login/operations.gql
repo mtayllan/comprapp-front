@@ -8,12 +8,5 @@ mutation AdminLoginMutation(
       id
       name
     }
-    credentials {
-      accessToken
-      client
-      uid
-      tokenType
-      expiry
-    }
   }
 }
