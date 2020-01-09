@@ -15,6 +15,7 @@ export default function Routes() {
         exact
         layout={MainLayout}
         path="/"
+        auth
       />
       <RouteWithLayout
         component={LoginPage}
