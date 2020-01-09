@@ -15,7 +15,7 @@ import { authClient } from '../../services/apollo';
 import { isAuthenticated } from '../../utils/storage';
 
 
-const AdminLoginMutation = loader('./operations.gql');
+const AdminLoginMutation = loader('./AdminLoginMutation.gql');
 
 const schema = {
   email: {

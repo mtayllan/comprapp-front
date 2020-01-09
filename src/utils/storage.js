@@ -8,7 +8,7 @@ const setUid = (uid) => localStorage.setItem('uid', uid);
 
 export const isAuthenticated = () => getAccessToken() && getClient() && getUid();
 export const authHasChanged = (accessToken) => accessToken && getAccessToken() !== accessToken;
-export const getAuthHeader = ({
+export const getAuthHeader = () => ({
   'access-token': getAccessToken(),
   client: getClient(),
   uid: getUid(),

@@ -88,12 +88,12 @@ const afterwareLink = () => new ApolloLink(
 );
 
 
-export const normalClient = () => new ApolloClient({
+export const normalClient = new ApolloClient({
   link: ApolloLink.from([
     createErrorLink(),
     createLinkWithToken(),
-    createHttpLink(),
     afterwareLink(),
+    createHttpLink(),
   ]),
   cache: createCache(),
 });
