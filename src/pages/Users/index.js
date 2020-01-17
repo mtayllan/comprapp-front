@@ -1,17 +1,17 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import AdminTable from '../../components/Admin/Table';
+import UserTable from '../../components/User/Table';
 
-const AdminsQuery = loader('./AdminsQuery.gql');
+const UsersQuery = loader('./UsersQuery.gql');
 
 export default () => {
-  const { loading, error, data } = useQuery(AdminsQuery);
+  const { loading, error, data } = useQuery(UsersQuery);
   console.log({ loading, error, data });
 
   if (loading) return 'Loading...';
   if (error) return `Erro: ${error}`;
 
   console.log({ data });
-  return (<AdminTable data={data.admins} />);
+  return (<UserTable data={data.users} />);
 };

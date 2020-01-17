@@ -100,7 +100,7 @@ export const normalClient = new ApolloClient({
 
 // for authentication
 const createAuthHttpLink = () => new HttpLink({
-  uri: 'http://localhost:4000/graphql_auth/admin',
+  uri: 'http://localhost:4000/graphql_auth',
 });
 
 export const authClient = new ApolloClient({

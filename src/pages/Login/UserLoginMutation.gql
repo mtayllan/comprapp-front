@@ -1,8 +1,8 @@
-mutation AdminLoginMutation(
+mutation UserLoginMutation(
   $email: String!
   $password: String!
 ) {
-  adminLogin(email: $email, password: $password) {
+  userLogin(email: $email, password: $password) {
     authenticatable {
       email
       id

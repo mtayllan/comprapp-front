@@ -1,5 +1,5 @@
-query AdminsQuery {
-  admins {
+query UsersQuery {
+  users {
     id
     name
     email

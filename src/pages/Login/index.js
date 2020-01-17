@@ -15,7 +15,7 @@ import { authClient } from '../../services/apollo';
 import { isAuthenticated } from '../../utils/storage';
 
 
-const AdminLoginMutation = loader('./AdminLoginMutation.gql');
+const UserLoginMutation = loader('./UserLoginMutation.gql');
 
 const schema = {
   email: {
@@ -34,7 +34,7 @@ const schema = {
 };
 
 const SignIn = () => {
-  const [adminLogin, { data }] = useMutation(AdminLoginMutation, {
+  const [userLogin, { data }] = useMutation(UserLoginMutation, {
     client: authClient,
     onError: ({ graphQLErrors }) => graphQLErrors.forEach((error) => toast.error(error.message)),
   });
@@ -80,7 +80,7 @@ const SignIn = () => {
   const handleSignIn = (event) => {
     event.preventDefault();
     const { values: { email, password } } = formState;
-    adminLogin({ variables: { email, password } });
+    userLogin({ variables: { email, password } });
   };
 
   const hasError = (field) => (!!(formState.touched[field] && formState.errors[field]));

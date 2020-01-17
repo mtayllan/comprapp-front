@@ -1,1 +1,1 @@
-export { default as AdminTable } from './Admin/Table';
+export { default as UserTable } from './User/Table';

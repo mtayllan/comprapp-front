@@ -6,7 +6,7 @@ import { Main as MainLayout, Minimal as MinimalLayout, RouteWithLayout } from '.
 // Pages
 import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
-import AdminsPage from './pages/Admins';
+import UsersPage from './pages/Users';
 
 export default function Routes() {
   return (
@@ -19,10 +19,10 @@ export default function Routes() {
         auth
       />
       <RouteWithLayout
-        component={AdminsPage}
+        component={UsersPage}
         exact
         layout={MainLayout}
-        path="/admins"
+        path="/users"
         auth
       />
       <RouteWithLayout
