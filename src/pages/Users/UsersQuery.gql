@@ -3,5 +3,8 @@ query UsersQuery {
     id
     name
     email
+    roles {
+      name
+    }
   }
 }

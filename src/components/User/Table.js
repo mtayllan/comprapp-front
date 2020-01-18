@@ -4,9 +4,29 @@ import { PropTypes } from 'prop-types';
 
 const Table = (props) => {
   const columns = [
-    'id',
-    'name',
-    'email',
+    {
+      name: 'id',
+      label: '#',
+    },
+    {
+      name: 'name',
+      label: 'Nome',
+    },
+    {
+      name: 'email',
+      label: 'Email',
+    },
+    {
+      name: 'roles',
+      label: 'Cargos',
+      options: {
+        customBodyRender: (value) => (
+          <div>
+            {value.map((role) => role.name).join(', ')}
+          </div>
+        ),
+      },
+    },
   ];
 
   const options = {
