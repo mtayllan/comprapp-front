@@ -5,7 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import UserTable from '../../components/User/Table';
 import UserForm from '../../components/User/Form';
 import AddBtn from '../../components/Buttons/AddBtn';
-import { ADD_USER, GET_USERS, UPDATE_USER } from './operations.gql';
+import {
+  ADD_USER, GET_USERS, UPDATE_USER, DELETE_USER,
+} from './operations.gql';
 
 const useStyles = makeStyles((theme) => ({
   root: { padding: theme.spacing(3) },
@@ -33,6 +35,20 @@ export default () => {
       if (result.updateUser.errors === null) {
         const updated = result.updateUser.user;
         const users = data.users.map((user) => (user.id === updated.id ? updated : user));
+        cache.writeQuery({
+          query: GET_USERS,
+          data: { users },
+        });
+      }
+    },
+  });
+  const [deleteUser] = useMutation(DELETE_USER, {
+    update(cache, { data: result }) {
+      if (result.deleteUser.errors === null) {
+        const { users } = data;
+        const { id } = result.deleteUser;
+        const user = users.find((u) => u.id === id);
+        users.splice(users.indexOf(user), 1);
         cache.writeQuery({
           query: GET_USERS,
           data: { users },
@@ -83,7 +99,7 @@ export default () => {
           />
         </Grid>
       </Grid>
-      <UserTable data={data.users} edit={setSelectedId} />
+      <UserTable data={data.users} edit={setSelectedId} del={(id) => deleteUser({ variables: { id } })} />
     </div>
   );
 };

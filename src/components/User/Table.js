@@ -3,9 +3,10 @@ import MUIDataTable from 'mui-datatables';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import { PropTypes } from 'prop-types';
+import ConfirmBtn from '../Buttons/ConfirmBtn';
 
 const Table = (props) => {
-  const { edit } = props;
+  const { edit, del } = props;
 
   const columns = [
     {
@@ -36,10 +37,10 @@ const Table = (props) => {
       label: ' ',
       options: {
         customBodyRender: (value) => (
-          <ButtonGroup size="small" aria-label="small outlined button group">
+          <>
             <Button onClick={() => edit(value)}>Editar</Button>
-            <Button>Remover</Button>
-          </ButtonGroup>
+            <ConfirmBtn confirm={() => del(value)}>Remover</ConfirmBtn>
+          </>
         ),
       },
     },
@@ -67,6 +68,7 @@ const Table = (props) => {
 Table.propTypes = {
   data: PropTypes.array.isRequired,
   edit: PropTypes.func.isRequired,
+  del: PropTypes.func.isRequired,
 };
 
 export default Table;
