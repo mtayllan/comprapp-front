@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 
 export default function Form(props) {
   const {
-    isOpen, close, submit, errors, loading,
+    isOpen, close, submit, errors, loading, user,
   } = props;
   const [showError, setShowError] = useState(false);
   const [email, setEmail] = useState('');
@@ -39,7 +39,7 @@ export default function Form(props) {
     }
   }, [isOpen]);
 
-  // close when create with sucess
+  // close when save with sucess
   useEffect(() => {
     if (errors == null && !loading) {
       close();
@@ -50,9 +50,17 @@ export default function Form(props) {
     setShowError(Boolean(errors));
   }, [errors]);
 
+  useEffect(() => {
+    if (user) {
+      setEmail(user.email);
+      setName(user.name);
+      setRole(user.customer);
+    }
+  }, [user]);
+
   return (
     <Dialog open={isOpen} onClose={close} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Novo Usuário</DialogTitle>
+      <DialogTitle id="form-dialog-title">Formulário de Usuário</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Preencha as informações abaixo para criar um novo usuário.
@@ -82,7 +90,7 @@ export default function Form(props) {
           onChange={(e) => setName(e.target.value)}
         />
         <FormControl component="fieldset">
-          <RadioGroup defaultValue="customer" onChange={(e) => setRole(e.target.value)} value={role}>
+          <RadioGroup onChange={(e) => setRole(e.target.value)}>
             <FormControlLabel value="customer" control={<Radio />} label="Cliente" />
             <FormControlLabel value="admin" control={<Radio />} label="Administrador" />
           </RadioGroup>
@@ -117,6 +125,7 @@ Form.propTypes = {
   close: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
   errors: PropTypes.array,
+  user: PropTypes.object,
 };
 
-Form.defaultProps = { errors: [] };
+Form.defaultProps = { errors: null, user: null };

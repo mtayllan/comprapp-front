@@ -1,8 +1,12 @@
 import React from 'react';
 import MUIDataTable from 'mui-datatables';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 import { PropTypes } from 'prop-types';
 
 const Table = (props) => {
+  const { edit } = props;
+
   const columns = [
     {
       name: 'id',
@@ -24,6 +28,18 @@ const Table = (props) => {
           <div>
             {value.map((role) => role.name).join(', ')}
           </div>
+        ),
+      },
+    },
+    {
+      name: 'id',
+      label: ' ',
+      options: {
+        customBodyRender: (value) => (
+          <ButtonGroup size="small" aria-label="small outlined button group">
+            <Button onClick={() => edit(value)}>Editar</Button>
+            <Button>Remover</Button>
+          </ButtonGroup>
         ),
       },
     },
@@ -50,6 +66,7 @@ const Table = (props) => {
 
 Table.propTypes = {
   data: PropTypes.array.isRequired,
+  edit: PropTypes.func.isRequired,
 };
 
 export default Table;
